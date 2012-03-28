@@ -22,7 +22,7 @@
 require 'uri'
 require 'cgi'
 require File.expand_path(File.join(File.dirname(__FILE__), "..", "support", "paths"))
-require File.expand_path(File.join(File.dirname(__FILE__), "..", "support", "selectors"))
+#require File.expand_path(File.join(File.dirname(__FILE__), "..", "support", "selectors"))
 
 module WithinHelpers
   def with_scope(locator)
@@ -31,6 +31,7 @@ module WithinHelpers
 end
 World(WithinHelpers)
 
+=begin
 # Single-line step scoper
 When /^(.*) within (.*[^:])$/ do |step, parent|
   with_scope(parent) { When step }
@@ -40,6 +41,7 @@ end
 When /^(.*) within (.*[^:]):$/ do |step, parent, table_or_string|
   with_scope(parent) { When "#{step}:", table_or_string }
 end
+=end
 
 Given /^(?:|I )am on (.+)$/ do |page_name|
   visit path_to(page_name)
@@ -76,6 +78,7 @@ end
 # TODO: Add support for checkbox, select or option
 # based on naming conventions.
 #
+=begin
 When /^(?:|I )fill in the following:$/ do |fields|
   fields.rows_hash.each do |name, value|
     When %{I fill in "#{name}" with "#{value}"}
@@ -85,6 +88,7 @@ end
 When /^(?:|I )select "([^"]*)" from "([^"]*)"$/ do |value, field|
   select(value, :from => field)
 end
+=end
 
 When /^(?:|I )check "([^"]*)"$/ do |field|
   check(field)
@@ -94,6 +98,7 @@ When /^(?:|I )uncheck "([^"]*)"$/ do |field|
   uncheck(field)
 end
 
+=begin
 When /^(?:|I )choose "([^"]*)"$/ do |field|
   choose(field)
 end
@@ -101,7 +106,7 @@ end
 When /^(?:|I )attach the file "([^"]*)" to "([^"]*)"$/ do |path, field|
   attach_file(field, File.expand_path(path))
 end
-
+=end
 Then /^(?:|I )should see "([^"]*)"$/ do |text|
   if page.respond_to? :should
     page.should have_content(text)
@@ -110,6 +115,7 @@ Then /^(?:|I )should see "([^"]*)"$/ do |text|
   end
 end
 
+=begin
 Then /^(?:|I )should see \/([^\/]*)\/$/ do |regexp|
   regexp = Regexp.new(regexp)
 
@@ -119,6 +125,7 @@ Then /^(?:|I )should see \/([^\/]*)\/$/ do |regexp|
     assert page.has_xpath?('//*', :text => regexp)
   end
 end
+=end
 
 Then /^(?:|I )should not see "([^"]*)"$/ do |text|
   if page.respond_to? :should
@@ -128,6 +135,7 @@ Then /^(?:|I )should not see "([^"]*)"$/ do |text|
   end
 end
 
+=begin
 Then /^(?:|I )should not see \/([^\/]*)\/$/ do |regexp|
   regexp = Regexp.new(regexp)
 
@@ -137,7 +145,9 @@ Then /^(?:|I )should not see \/([^\/]*)\/$/ do |regexp|
     assert page.has_no_xpath?('//*', :text => regexp)
   end
 end
+=end
 
+=begin
 Then /^the "([^"]*)" field(?: within (.*))? should contain "([^"]*)"$/ do |field, parent, value|
   with_scope(parent) do
     field = find_field(field)
@@ -215,7 +225,8 @@ Then /^the "([^"]*)" checkbox(?: within (.*))? should be checked$/ do |label, pa
     end
   end
 end
-
+=end
+=begin
 Then /^the "([^"]*)" checkbox(?: within (.*))? should not be checked$/ do |label, parent|
   with_scope(parent) do
     field_checked = find_field(label)['checked']
@@ -226,7 +237,8 @@ Then /^the "([^"]*)" checkbox(?: within (.*))? should not be checked$/ do |label
     end
   end
 end
- 
+=end
+
 Then /^(?:|I )should be on (.+)$/ do |page_name|
   current_path = URI.parse(current_url).path
   if current_path.respond_to? :should
@@ -236,6 +248,7 @@ Then /^(?:|I )should be on (.+)$/ do |page_name|
   end
 end
 
+=begin
 Then /^(?:|I )should have the following query string:$/ do |expected_pairs|
   query = URI.parse(current_url).query
   actual_params = query ? CGI.parse(query) : {}
@@ -252,3 +265,4 @@ end
 Then /^show me the page$/ do
   save_and_open_page
 end
+=end
